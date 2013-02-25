@@ -9,6 +9,9 @@ java, maven
 # Install / Run 
 
 git clone git://github.com/jhpoelen/eol-globi-rest.git
+
 cd eol-globi-rest
+
 mvn clean install 
+
 java -jar target/dependency/jetty-runner.jar --port 8080 target/*.war

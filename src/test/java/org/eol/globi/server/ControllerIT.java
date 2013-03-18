@@ -25,6 +25,13 @@ public class ControllerIT {
         assertThat(response, is(not(nullValue())));
     }
 
+    @Test
+    public void findTaxonUsingPartialString() throws IOException {
+        String uri = getURLPrefix() + "findTaxon/Homo%20Sap";
+        String response = HttpClient.httpGet(uri);
+        assertThat(response, is(not(nullValue())));
+    }
+
     protected String getURLPrefix() {
         return "http://localhost:8080/";
     }

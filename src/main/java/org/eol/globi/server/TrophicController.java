@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.io.IOException;
 
 @Controller
-public class PredatorController {
+public class TrophicController {
 
     @RequestMapping(value = "/predator/{scientificName}/listPrey", method = RequestMethod.GET)
     @ResponseBody
@@ -28,8 +28,17 @@ public class PredatorController {
     @ResponseBody
     public String listPredatorForPrey(@PathVariable("scientificName") String scientificName) throws IOException {
         String query = "{\"query\":\"START preyTaxon = node:taxons(name={preyName}) " +
-                        "MATCH predatorTaxon<-[:CLASSIFIED_AS]-predator-[:ATE]->prey-[:CLASSIFIED_AS]->preyTaxon " +
-                        "RETURN distinct(predatorTaxon.name) as predatorName\", \"params\": { \"preyName\" : \"" + scientificName + "\" } }";
+                "MATCH predatorTaxon<-[:CLASSIFIED_AS]-predator-[:ATE]->prey-[:CLASSIFIED_AS]->preyTaxon " +
+                "RETURN distinct(predatorTaxon.name) as predatorName\", \"params\": { \"preyName\" : \"" + scientificName + "\" } }";
+        return execute(query);
+    }
+
+    @RequestMapping(value = "/findTaxon/{name}", method = RequestMethod.GET)
+    @ResponseBody
+    public String findTaxon(@PathVariable("name") String taxonName) throws IOException {
+        String query = "{\"query\":\"START taxon = node:taxons('*:*') " +
+                "WHERE taxon.name =~ '" + taxonName + ".*'" +
+                "RETURN distinct(taxon.name)\"}";
         return execute(query);
     }
 

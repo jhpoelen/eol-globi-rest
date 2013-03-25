@@ -33,9 +33,9 @@ public class TrophicController {
         return execute(query);
     }
 
-    @RequestMapping(value = "/findTaxon/{name}", method = RequestMethod.GET)
+    @RequestMapping(value = "/findTaxon/{taxonName}", method = RequestMethod.GET)
     @ResponseBody
-    public String findTaxon(@PathVariable("name") String taxonName) throws IOException {
+    public String findTaxon(@PathVariable("taxonName") String taxonName) throws IOException {
         String query = "{\"query\":\"START taxon = node:taxons('*:*') " +
                 "WHERE taxon.name =~ '" + taxonName + ".*'" +
                 "RETURN distinct(taxon.name)\"}";

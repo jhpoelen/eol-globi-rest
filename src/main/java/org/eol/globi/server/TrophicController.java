@@ -38,7 +38,8 @@ public class TrophicController {
     public String findTaxon(@PathVariable("taxonName") String taxonName) throws IOException {
         String query = "{\"query\":\"START taxon = node:taxons('*:*') " +
                 "WHERE taxon.name =~ '" + taxonName + ".*'" +
-                "RETURN distinct(taxon.name)\"}";
+                "RETURN distinct(taxon.name) " +
+                "LIMIT 15\"}";
         return execute(query);
     }
 

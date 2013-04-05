@@ -33,6 +33,7 @@ public class TrophicControllerTest {
     public void findPredatorObservations() throws IOException, URISyntaxException {
         String list = new TrophicController().findPredatorObservations("Ariopsis felis");
         assertThat(list, Is.is(notNullValue()));
+        LOG.info(list);
 
         list = new TrophicController().findPredatorObservations("Rattus rattus");
         assertThat(list, Is.is(notNullValue()));

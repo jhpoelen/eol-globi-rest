@@ -55,7 +55,7 @@ public class TrophicController {
     public String findPredatorObservations(@PathVariable("predatorName") String predatorName) throws IOException {
         String query = "{\"query\":\"START predatorTaxon = node:taxons(name={predatorName}) " +
                 OBSERVATION_MATCH +
-                " RETURN preyTaxon.name as preyName, location.latitude as latitude, location.longitude as longitude, location.altitude as altitude\"" +
+                " RETURN preyTaxon.name as preyName, location.latitude as latitude, location.longitude as longitude, location.altitude as altitude, study.contributor as contributor\"" +
                 ", \"params\": { \"predatorName\" : \"" + predatorName + "\" } }";
         String execute = execute(query);
         return execute;
@@ -66,7 +66,7 @@ public class TrophicController {
     public String findPreyObservations(@PathVariable("preyName") String preyName) throws IOException {
         String query = "{\"query\":\"START preyTaxon = node:taxons(name={preyName}) " +
                 OBSERVATION_MATCH +
-                " RETURN predatorTaxon.name as predatorName, location.latitude as latitude, location.longitude as longitude, location.altitude as altitude\"" +
+                " RETURN predatorTaxon.name as predatorName, location.latitude as latitude, location.longitude as longitude, location.altitude as altitude, study.contributor as contributor\"" +
                 ", \"params\": { \"preyName\" : \"" + preyName + "\" } }";
         return execute(query);
     }

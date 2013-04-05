@@ -9,7 +9,7 @@ import static org.hamcrest.core.IsNot.not;
 import static org.hamcrest.core.IsNull.nullValue;
 import static org.junit.Assert.assertThat;
 
-public class ControllerIT {
+public class TrophicControllerIT {
 
     @Test
     public void ping() throws IOException {

@@ -55,4 +55,10 @@ public class TrophicControllerTest {
         assertThat(list, Is.is(notNullValue()));
     }
 
+    @Test
+    public void findExternalLinkForTaxonWithName() throws IOException {
+        String externalLink = new TrophicController().findExternalLinkForTaxonWithName("Homo sapiens");
+        assertThat(externalLink, Is.is("{\"url\":\"http://eol.org/pages/327955\"}"));
+    }
+
 }

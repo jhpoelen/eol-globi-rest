@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 public class TrophicController {
@@ -81,4 +83,44 @@ public class TrophicController {
         return httpclient.execute(httpPost, responseHandler);
     }
 
+
+    @RequestMapping(value = "/findExternalUrlForTaxon/{taxonName}", method = RequestMethod.GET)
+    @ResponseBody
+    public String findExternalLinkForTaxonWithName(@PathVariable("taxonName") String taxonName) throws IOException {
+        String query = "{\"query\":\"START taxon = node:taxons(name={taxonName}) " +
+                " RETURN taxon.externalId\"" +
+                ", \"params\": { \"taxonName\" : \"" + taxonName + "\" } }";
+
+        String result = execute(query);
+
+        Map<String, String> idURLPrefixMap = new HashMap<String, String>() {{
+            put("EOL:", "http://eol.org/pages/");
+            put("BioGoMx:", "http://gulfbase.org/biogomx/biospecies.php?species=");
+        }};
+
+        String url = null;
+
+        for (Map.Entry<String, String> stringStringEntry : idURLPrefixMap.entrySet()) {
+            url = getUrl(result, stringStringEntry.getKey(), stringStringEntry.getValue());
+            if (url != null) {
+                break;
+            }
+
+        }
+        return url == null ? "{}" : "{\"url\":\"" + url + "\"}";
+    }
+
+    private String getUrl(String result, String externalIdPrefix, String urlPrefix) {
+        String url = "";
+        if (result.contains(externalIdPrefix)) {
+            String[] split = result.split(externalIdPrefix);
+            if (split.length > 1) {
+                String[] eolId = split[1].split("\"");
+                if (eolId.length > 1) {
+                    url = urlPrefix + eolId[0];
+                }
+            }
+        }
+        return url;
+    }
 }

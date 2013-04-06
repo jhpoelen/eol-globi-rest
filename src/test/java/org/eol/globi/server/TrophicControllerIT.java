@@ -32,6 +32,13 @@ public class TrophicControllerIT {
         assertThat(response, is(not(nullValue())));
     }
 
+    @Test
+    public void findExternalUrl() throws IOException {
+        String uri = getURLPrefix() + "findExternalUrlForTaxon/Homo%20Sapiens";
+        String response = HttpClient.httpGet(uri);
+        assertThat(response, is(not(nullValue())));
+    }
+
     protected String getURLPrefix() {
         return "http://localhost:8080/";
     }

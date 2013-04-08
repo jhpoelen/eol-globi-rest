@@ -20,7 +20,7 @@ public class TrophicController {
     public static final String OBSERVATION_MATCH =
             "MATCH (predatorTaxon)<-[:CLASSIFIED_AS]-(predator)-[:ATE]->(prey)-[:CLASSIFIED_AS]->(preyTaxon)," +
                     "(predator)-[:COLLECTED_AT]->(location)," +
-                    "(predator)<-[:COLLECTED]-(study) " +
+                    "(predator)<-[collected_rel:COLLECTED]-(study) " +
                     "WHERE location is not null and has(location.altitude) ";
 
 
@@ -57,10 +57,9 @@ public class TrophicController {
     public String findPredatorObservations(@PathVariable("predatorName") String predatorName) throws IOException {
         String query = "{\"query\":\"START predatorTaxon = node:taxons(name={predatorName}) " +
                 OBSERVATION_MATCH +
-                " RETURN preyTaxon.name as preyName, location.latitude as latitude, location.longitude as longitude, location.altitude as altitude, study.contributor as contributor\"" +
+                " RETURN preyTaxon.name as preyName, location.latitude as latitude, location.longitude as longitude, location.altitude as altitude, study.contributor as contributor, collected_rel.dateInUnixEpoch? as collection_time_in_unix_epoch\"" +
                 ", \"params\": { \"predatorName\" : \"" + predatorName + "\" } }";
-        String execute = execute(query);
-        return execute;
+        return execute(query);
     }
 
     @RequestMapping(value = "/prey/{preyName}/listPredatorObservations/", method = RequestMethod.GET)
@@ -68,7 +67,7 @@ public class TrophicController {
     public String findPreyObservations(@PathVariable("preyName") String preyName) throws IOException {
         String query = "{\"query\":\"START preyTaxon = node:taxons(name={preyName}) " +
                 OBSERVATION_MATCH +
-                " RETURN predatorTaxon.name as predatorName, location.latitude as latitude, location.longitude as longitude, location.altitude as altitude, study.contributor as contributor\"" +
+                " RETURN predatorTaxon.name as predatorName, location.latitude as latitude, location.longitude as longitude, location.altitude as altitude, study.contributor as contributor, collected_rel.dateInUnixEpoch? as collection_time_in_unix_epoch\"" +
                 ", \"params\": { \"preyName\" : \"" + preyName + "\" } }";
         return execute(query);
     }

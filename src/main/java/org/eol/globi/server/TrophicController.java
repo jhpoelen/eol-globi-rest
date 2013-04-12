@@ -52,7 +52,7 @@ public class TrophicController {
         return execute(query);
     }
 
-    @RequestMapping(value = "/predator/{predatorName}/listPreyObservations/", method = RequestMethod.GET)
+    @RequestMapping(value = "/predator/{predatorName}/listPreyObservations", method = RequestMethod.GET)
     @ResponseBody
     public String findPredatorObservations(@PathVariable("predatorName") String predatorName) throws IOException {
         String query = "{\"query\":\"START predatorTaxon = node:taxons(name={predatorName}) " +
@@ -62,7 +62,7 @@ public class TrophicController {
         return execute(query);
     }
 
-    @RequestMapping(value = "/prey/{preyName}/listPredatorObservations/", method = RequestMethod.GET)
+    @RequestMapping(value = "/prey/{preyName}/listPredatorObservations", method = RequestMethod.GET)
     @ResponseBody
     public String findPreyObservations(@PathVariable("preyName") String preyName) throws IOException {
         String query = "{\"query\":\"START preyTaxon = node:taxons(name={preyName}) " +

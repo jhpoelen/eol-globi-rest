@@ -39,6 +39,13 @@
             <version>2.5</version>
             <scope>provided</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.neo4j</groupId>
+            <artifactId>neo4j</artifactId>
+            <version>1.9.RC1</version>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
@@ -328,6 +335,25 @@
                             </artifactItems>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>install-graph-db</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>eol-globi-datasets</artifactId>
+                                    <version>${project.version}</version>
+                                    <classifier>neo4j-graph-db</classifier>
+                                    <type>tar.gz</type>
+                                    <outputDirectory>${project.build.directory}/data</outputDirectory>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
             <plugin>
@@ -363,6 +389,16 @@
                         <configuration>
                             <scanIntervalSeconds>0</scanIntervalSeconds>
                             <daemon>true</daemon>
+                            <systemProperties>
+                                <systemProperty>
+                                    <key>storeDir</key>
+                                    <value>target/data/eol-globi-datasets-1.0-SNAPSHOT/graph.db</value>
+                                </systemProperty>
+                                <systemProperty>
+                                    <key>readOnly</key>
+                                    <value>true</value>
+                                </systemProperty>
+                            </systemProperties>
                         </configuration>
                     </execution>
                     <execution>

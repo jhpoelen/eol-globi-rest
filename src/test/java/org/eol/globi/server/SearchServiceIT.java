@@ -13,6 +13,6 @@ public class SearchServiceIT extends ITBase {
     public void findCloseMatches() throws IOException {
         String uri = getURLPrefix() + "findCloseMatchesForTaxon/Homo%20SApient";
         String response = HttpClient.httpGet(uri);
-        assertThat(response, is("{\"columns\":[\"(taxon.name)\"],\"data\":[\"Homo sapiens\"]}"));
+        assertThat(response, is("{\"columns\":[\"(taxon.name)\"],\"data\":[[\"Homo sapiens\"]]}"));
     }
 }

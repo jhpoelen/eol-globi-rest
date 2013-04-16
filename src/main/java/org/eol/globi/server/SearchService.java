@@ -37,9 +37,9 @@ public class SearchService {
         while (query.hasNext() && hitCount < 15) {
             Node node = query.next();
             if (node.hasProperty("name")) {
-                buffer.append("\"");
+                buffer.append("[\"");
                 buffer.append((String) node.getProperty("name"));
-                buffer.append("\"");
+                buffer.append("\"]");
             }
             if (query.hasNext()) {
                 buffer.append(",");

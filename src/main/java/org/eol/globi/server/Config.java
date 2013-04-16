@@ -21,10 +21,10 @@ public class Config {
     }
 
     @Bean(destroyMethod = "shutdown")
-    public static EmbeddedGraphDatabase graphDb(@Value("${storeDir:target/graph.db.test") final String storeDir, @Value("${readOnly:false}") final String readonly) {
+    public static EmbeddedGraphDatabase graphDb(@Value("${storeDir:target/graph.db.test}") final String storeDir) {
         return new EmbeddedGraphDatabase(storeDir, new HashMap<String, String>() {
             {
-                put("read_only", readonly);
+                put("read_only", "false");
             }
         });
     }

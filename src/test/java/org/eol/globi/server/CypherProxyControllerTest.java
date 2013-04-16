@@ -11,50 +11,50 @@ import java.net.URISyntaxException;
 import static org.hamcrest.core.IsNull.notNullValue;
 import static org.junit.Assert.assertThat;
 
-public class TrophicControllerTest {
+public class CypherProxyControllerTest {
 
-    private static Log LOG = LogFactory.getLog(TrophicControllerTest.class);
+    private static Log LOG = LogFactory.getLog(CypherProxyControllerTest.class);
 
 
     @Test
     public void findPrey() throws IOException, URISyntaxException {
-        String list = new TrophicController().findPreyForPredator("Homo sapiens");
+        String list = new CypherProxyController().findPreyForPredator("Homo sapiens");
         assertThat(list, Is.is(notNullValue()));
     }
 
     @Test
     public void findPredator() throws IOException, URISyntaxException {
-        String list = new TrophicController().findPredatorForPrey("Hemiramphus brasiliensis");
+        String list = new CypherProxyController().findPredatorForPrey("Hemiramphus brasiliensis");
         assertThat(list, Is.is(notNullValue()));
     }
 
 
     @Test
     public void findPredatorObservations() throws IOException, URISyntaxException {
-        String list = new TrophicController().findPredatorObservations("Ariopsis felis");
+        String list = new CypherProxyController().findPredatorObservations("Ariopsis felis");
         assertThat(list, Is.is(notNullValue()));
-        list = new TrophicController().findPredatorObservations("Rattus rattus");
+        list = new CypherProxyController().findPredatorObservations("Rattus rattus");
         assertThat(list, Is.is(notNullValue()));
     }
 
     @Test
     public void findPreyObservations() throws IOException, URISyntaxException {
-        String list = new TrophicController().findPreyObservations("Rattus rattus");
+        String list = new CypherProxyController().findPreyObservations("Rattus rattus");
         assertThat(list, Is.is(notNullValue()));
 
-        list = new TrophicController().findPreyObservations("Ariopsis felis");
+        list = new CypherProxyController().findPreyObservations("Ariopsis felis");
         assertThat(list, Is.is(notNullValue()));
     }
 
     @Test
     public void findTaxon() throws IOException, URISyntaxException {
-        String list = new TrophicController().findTaxon("Homo sap");
+        String list = new CypherProxyController().findTaxon("Homo sap");
         assertThat(list, Is.is(notNullValue()));
     }
 
     @Test
     public void findExternalLinkForTaxonWithName() throws IOException {
-        String externalLink = new TrophicController().findExternalLinkForTaxonWithName("Homo sapiens");
+        String externalLink = new CypherProxyController().findExternalLinkForTaxonWithName("Homo sapiens");
         assertThat(externalLink, Is.is("{\"url\":\"http://eol.org/pages/327955\"}"));
     }
 

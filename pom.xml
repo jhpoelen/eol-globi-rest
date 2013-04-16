@@ -9,7 +9,7 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
-    <name>EOL's Global Biotic Interaction Standalone Rest Sever</name>
+    <name>EOL's Global Biotic Interaction Standalone Rest Server</name>
 
     <properties>
         <spring.version>3.1.1.RELEASE</spring.version>
@@ -392,11 +392,7 @@
                             <systemProperties>
                                 <systemProperty>
                                     <key>storeDir</key>
-                                    <value>target/data/eol-globi-datasets-1.0-SNAPSHOT/graph.db</value>
-                                </systemProperty>
-                                <systemProperty>
-                                    <key>readOnly</key>
-                                    <value>true</value>
+                                    <value>${project.build.directory}/data/eol-globi-datasets-1.0-SNAPSHOT/graph.db/</value>
                                 </systemProperty>
                             </systemProperties>
                         </configuration>

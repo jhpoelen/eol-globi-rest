@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Controller
-public class TrophicController {
+public class CypherProxyController {
 
     public static final String OBSERVATION_MATCH =
             "MATCH (predatorTaxon)<-[:CLASSIFIED_AS]-(predator)-[:ATE]->(prey)-[:CLASSIFIED_AS]->(preyTaxon)," +
@@ -52,7 +52,6 @@ public class TrophicController {
         return execute(query);
     }
 
-    @RequestMapping(value = "/predator/{predatorName}/listPreyObservations", method = RequestMethod.GET)
     @ResponseBody
     public String findPredatorObservations(@PathVariable("predatorName") String predatorName) throws IOException {
         String query = "{\"query\":\"START predatorTaxon = node:taxons(name={predatorName}) " +

@@ -25,6 +25,8 @@ import java.util.List;
 @Controller
 public class SearchService {
 
+    public static final String NAME = "name";
+    public static final String PATH = "path";
     @Autowired
     EmbeddedGraphDatabase graphDb;
 
@@ -32,22 +34,33 @@ public class SearchService {
     @ResponseBody
     public String findCloseMatchesForTaxon(@PathVariable("taxonName") String taxonName) throws IOException {
         StringBuffer buffer = new StringBuffer();
-        IndexHits<Node> query = query(taxonName, "name", graphDb.index().forNodes("taxons"));
         int hitCount = 0;
+        hitCount = addCloseMatches(taxonName, buffer, NAME, hitCount);
+        addCloseMatches(taxonName, buffer, PATH, hitCount);
+        return "{\"columns\":[\"(taxon.name)\"],\"data\":[" + buffer.toString() + "]}";
+    }
+
+    private int addCloseMatches(String taxonName, StringBuffer buffer, String matchProperty, int hitCount) {
+        IndexHits<Node> query = query(taxonName, matchProperty, graphDb.index().forNodes("taxons"));
         while (query.hasNext() && hitCount < 15) {
             Node node = query.next();
-            if (node.hasProperty("name")) {
-                buffer.append("[\"");
-                buffer.append((String) node.getProperty("name"));
-                buffer.append("\"]");
+            if (node.hasProperty(NAME)) {
+                addHit(buffer, query, node);
+                hitCount++;
             }
-            if (query.hasNext()) {
-                buffer.append(",");
-            }
-            hitCount++;
+
         }
         query.close();
-        return "{\"columns\":[\"(taxon.name)\"],\"data\":[" + buffer.toString() + "]}";
+        return hitCount;
+    }
+
+    private void addHit(StringBuffer buffer, IndexHits<Node> query, Node node) {
+        buffer.append("[\"");
+        buffer.append((String) node.getProperty(NAME));
+        buffer.append("\"]");
+        if (query.hasNext()) {
+            buffer.append(",");
+        }
     }
 
     private IndexHits<Node> query(String taxonName, String name, Index<Node> taxonIndex) {

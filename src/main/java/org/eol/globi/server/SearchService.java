@@ -34,13 +34,13 @@ public class SearchService {
     @ResponseBody
     public String findCloseMatchesForTaxon(@PathVariable("taxonName") String taxonName) throws IOException {
         StringBuffer buffer = new StringBuffer();
-        int hitCount = 0;
-        hitCount = addCloseMatches(taxonName, buffer, NAME, hitCount);
-        addCloseMatches(taxonName, buffer, PATH, hitCount);
+        addCloseMatches(taxonName, buffer, NAME);
+        addCloseMatches(taxonName, buffer, PATH);
         return "{\"columns\":[\"(taxon.name)\"],\"data\":[" + buffer.toString() + "]}";
     }
 
-    private int addCloseMatches(String taxonName, StringBuffer buffer, String matchProperty, int hitCount) {
+    private void addCloseMatches(String taxonName, StringBuffer buffer, String matchProperty) {
+        int hitCount = 0;
         IndexHits<Node> query = query(taxonName, matchProperty, graphDb.index().forNodes("taxons"));
         while (query.hasNext() && hitCount < 15) {
             Node node = query.next();
@@ -51,7 +51,6 @@ public class SearchService {
 
         }
         query.close();
-        return hitCount;
     }
 
     private void addHit(StringBuffer buffer, IndexHits<Node> query, Node node) {

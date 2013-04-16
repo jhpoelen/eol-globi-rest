@@ -52,6 +52,7 @@ public class CypherProxyController {
         return execute(query);
     }
 
+    @RequestMapping(value = "/predator/{predatorName}/listPreyObservations", method = RequestMethod.GET)
     @ResponseBody
     public String findPredatorObservations(@PathVariable("predatorName") String predatorName) throws IOException {
         String query = "{\"query\":\"START predatorTaxon = node:taxons(name={predatorName}) " +

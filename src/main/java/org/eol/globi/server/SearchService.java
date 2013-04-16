@@ -47,7 +47,7 @@ public class SearchService {
             hitCount++;
         }
         query.close();
-        return "{\"columns\":[\"(taxon.name)\"],\"data\":[" + buffer.toString() + "]";
+        return "{\"columns\":[\"(taxon.name)\"],\"data\":[" + buffer.toString() + "]}";
     }
 
     private IndexHits<Node> query(String taxonName, String name, Index<Node> taxonIndex) {

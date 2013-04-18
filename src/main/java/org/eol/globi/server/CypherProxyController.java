@@ -4,6 +4,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -74,6 +75,7 @@ public class CypherProxyController {
 
     @RequestMapping(value = "/contributors", method = RequestMethod.GET)
     @ResponseBody
+    @Cacheable(value = "contributorCache")
     public String contributors() throws IOException {
         String query = "{\"query\":\"START study=node:studies('*:*')" +
                 " MATCH study-[:COLLECTED]->sourceSpecimen-[interact:ATE|PREYS_UPON|PARASITE_OF|HAS_HOST|INTERACTS_WITH]->prey-[:CLASSIFIED_AS]->targetTaxon, sourceSpecimen-[:CLASSIFIED_AS]->sourceTaxon " +

@@ -206,6 +206,12 @@
             <version>0.6.2</version>
         </dependency>
 
+        <dependency>
+            <groupId>net.sf.ehcache</groupId>
+            <artifactId>ehcache-core</artifactId>
+            <version>2.6.5</version>
+        </dependency>
+
 
         <dependency>
             <groupId>commons-lang</groupId>
@@ -392,7 +398,8 @@
                             <systemProperties>
                                 <systemProperty>
                                     <key>storeDir</key>
-                                    <value>${project.build.directory}/data/eol-globi-datasets-1.0-SNAPSHOT/graph.db/</value>
+                                    <value>${project.build.directory}/data/eol-globi-datasets-1.0-SNAPSHOT/graph.db/
+                                    </value>
                                 </systemProperty>
                             </systemProperties>
                         </configuration>

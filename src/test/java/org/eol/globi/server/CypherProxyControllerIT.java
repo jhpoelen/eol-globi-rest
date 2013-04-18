@@ -1,5 +1,6 @@
 package org.eol.globi.server;
 
+import org.apache.commons.lang.time.StopWatch;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -42,6 +43,20 @@ public class CypherProxyControllerIT {
 
     @Test
     public void listContributors() throws IOException {
+        long responseTimeForFirstCall = timedContributorRequest();
+        long responseTimeForSecondCall = timedContributorRequest();
+        assertThat("expected second call to be two orders of magnitude smaller due to caching, but found response time of second call to be [" + responseTimeForSecondCall + "] ms", responseTimeForSecondCall < (responseTimeForFirstCall / 100), is(true));
+    }
+
+    private long timedContributorRequest() throws IOException {
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
+        requestContributors();
+        stopWatch.stop();
+        return stopWatch.getTime();
+    }
+
+    private void requestContributors() throws IOException {
         String uri = getURLPrefix() + "contributors";
         String response = HttpClient.httpGet(uri);
         assertThat(response, containsString("Roopnarine"));

@@ -21,7 +21,7 @@ public class CypherProxyController {
             "MATCH (predatorTaxon)<-[:CLASSIFIED_AS]-(predator)-[:ATE]->(prey)-[:CLASSIFIED_AS]->(preyTaxon)," +
                     "(predator)-[:COLLECTED_AT]->(location)," +
                     "(predator)<-[collected_rel:COLLECTED]-(study) " +
-                    "WHERE location is not null and has(location.altitude) ";
+                    "WHERE location is not null ";
 
 
     @RequestMapping(value = "/predator/{scientificName}/listPrey", method = RequestMethod.GET)
@@ -57,7 +57,7 @@ public class CypherProxyController {
     public String findPredatorObservations(@PathVariable("predatorName") String predatorName) throws IOException {
         String query = "{\"query\":\"START predatorTaxon = node:taxons(name={predatorName}) " +
                 OBSERVATION_MATCH +
-                " RETURN preyTaxon.name as preyName, location.latitude as latitude, location.longitude as longitude, location.altitude as altitude, study.contributor as contributor, collected_rel.dateInUnixEpoch? as collection_time_in_unix_epoch\"" +
+                " RETURN preyTaxon.name as preyName, location.latitude as latitude, location.longitude as longitude, location.altitude? as altitude, study.contributor as contributor, collected_rel.dateInUnixEpoch? as collection_time_in_unix_epoch\"" +
                 ", \"params\": { \"predatorName\" : \"" + predatorName + "\" } }";
         return execute(query);
     }
@@ -67,7 +67,7 @@ public class CypherProxyController {
     public String findPreyObservations(@PathVariable("preyName") String preyName) throws IOException {
         String query = "{\"query\":\"START preyTaxon = node:taxons(name={preyName}) " +
                 OBSERVATION_MATCH +
-                " RETURN predatorTaxon.name as predatorName, location.latitude as latitude, location.longitude as longitude, location.altitude as altitude, study.contributor as contributor, collected_rel.dateInUnixEpoch? as collection_time_in_unix_epoch\"" +
+                " RETURN predatorTaxon.name as predatorName, location.latitude as latitude, location.longitude as longitude, location.altitude? as altitude, study.contributor as contributor, collected_rel.dateInUnixEpoch? as collection_time_in_unix_epoch\"" +
                 ", \"params\": { \"preyName\" : \"" + preyName + "\" } }";
         return execute(query);
     }

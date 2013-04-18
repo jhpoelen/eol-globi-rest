@@ -72,6 +72,15 @@ public class CypherProxyController {
         return execute(query);
     }
 
+    @RequestMapping(value = "/contributors", method = RequestMethod.GET)
+    @ResponseBody
+    public String contributors() throws IOException {
+        String query = "{\"query\":\"START study=node:studies('*:*')" +
+                " MATCH study-[:COLLECTED]->sourceSpecimen-[interact:ATE|PREYS_UPON|PARASITE_OF|HAS_HOST|INTERACTS_WITH]->prey-[:CLASSIFIED_AS]->targetTaxon, sourceSpecimen-[:CLASSIFIED_AS]->sourceTaxon " +
+                " RETURN study.institution, study.period, study.description, study.contributor, count(interact), count(distinct(sourceTaxon)), count(distinct(targetTaxon))\", \"params\": { } }";
+        return execute(query);
+    }
+
 
     private String execute(String query) throws IOException {
         org.apache.http.client.HttpClient httpclient = new DefaultHttpClient();

@@ -27,6 +27,7 @@ public class SearchService {
 
     public static final String NAME = "name";
     public static final String PATH = "path";
+
     @Autowired
     EmbeddedGraphDatabase graphDb;
 
@@ -55,15 +56,6 @@ public class SearchService {
 
         }
         query.close();
-    }
-
-    private void addHit(StringBuffer buffer, IndexHits<Node> query, Node node) {
-        buffer.append("[\"");
-        buffer.append((String) node.getProperty(NAME));
-        buffer.append("\"]");
-        if (query.hasNext()) {
-            buffer.append(",");
-        }
     }
 
     private IndexHits<Node> query(String taxonName, String name, Index<Node> taxonIndex) {

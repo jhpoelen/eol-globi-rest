@@ -40,6 +40,13 @@ public class CypherProxyControllerIT {
         assertThat(response, containsString("url"));
     }
 
+    @Test
+    public void listContributors() throws IOException {
+        String uri = getURLPrefix() + "contributors";
+        String response = HttpClient.httpGet(uri);
+        assertThat(response, containsString("Roopnarine"));
+    }
+
     protected String getURLPrefix() {
         return "http://localhost:8080/";
     }
